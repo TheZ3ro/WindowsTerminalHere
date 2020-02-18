@@ -1,19 +1,19 @@
-; "Windows Terminal" PowerToy
+; "Windows Terminal" PowerToy 
 
 [version]
 signature="$CHICAGO$"
 
 [WindowsTerminalHereInstall]
 CopyFiles = WindowsTerminalHere.Files.Inf
-AddReg    = WindowsTerminalHere.Reg
+AddReg    = WindowsTerminalHere.AddReg
 
 [DefaultInstall]
 CopyFiles = WindowsTerminalHere.Files.Inf
-AddReg    = WindowsTerminalHere.Reg
+AddReg    = WindowsTerminalHere.AddReg
 
-[DefaultUnInstall]
+[DefaultUninstall]
 DelFiles  = WindowsTerminalHere.Files.Inf
-DelReg    = WindowsTerminalHere.Reg
+DelReg    = WindowsTerminalHere.DelReg
 
 [SourceDisksNames]
 55="Windows Terminal Here","",1
@@ -27,15 +27,22 @@ WindowsTerminalHere.Files.Inf = 17
 [WindowsTerminalHere.Files.Inf]
 WindowsTerminalHere.INF
 
-[WindowsTerminalHere.Reg]
+[WindowsTerminalHere.AddReg]
 HKLM,%UDHERE%,DisplayName,,"%WindowsTerminalHereName%"
-HKLM,%UDHERE%,UninstallString,,"rundll32.exe syssetup.dll,SetupInfObjectInstallAction DefaultUninstall 132 %17%\WindowsTerminalHere.inf"
-HKCR,Directory\Shell\WindowsTerminalHere,,,"%WindowsTerminalHereAccel%"
-HKCR,Directory\Shell\WindowsTerminalHere\command,,0x00020000,""%%LOCALAPPDATA%%\Microsoft\WindowsApps\wt.exe -d " ""%1"""
-HKCR,Drive\Shell\WindowsTerminalHere,,,"%WindowsTerminalHereAccel%"
-HKCR,Drive\Shell\WindowsTerminalHere\command,,0x00020000,""%%LOCALAPPDATA%%\Microsoft\WindowsApps\wt.exe -d " ""%1"""
+HKLM,%UDHERE%,UninstallString,,"rundll32.exe syssetup.dll,InstallHinfSection DefaultUninstall 132 %17%\WindowsTerminalHere.inf"
+HKCR,"%SHELLDIR%\WindowsTerminalHere (cmd)",,,"Open Terminal (cmd)"
+HKCR,"%SHELLDIR%\WindowsTerminalHere (cmd)\command",,0x00020000,"%%LOCALAPPDATA%%\Microsoft\WindowsApps\wt.exe -p ""cmd"" -d ""%V"" "
+HKCR,"%SHELLDIR%\WindowsTerminalHere (PowerShell)",,,"Open Terminal (PowerShell)"
+HKCR,"%SHELLDIR%\WindowsTerminalHere (PowerShell)\command",,0x00020000,"%%LOCALAPPDATA%%\Microsoft\WindowsApps\wt.exe -p ""Windows PowerShell"" -d ""%V"" "
+HKCR,"%SHELLDIR%\WindowsTerminalHere (Ubuntu)",,,"Open Terminal (Ubuntu)"
+HKCR,"%SHELLDIR%\WindowsTerminalHere (Ubuntu)\command",,0x00020000,"%%LOCALAPPDATA%%\Microsoft\WindowsApps\wt.exe -p ""Ubuntu"" -d ""%V"" "
+
+[WindowsTerminalHere.DelReg]
+HKLM,%UDHERE%
+HKCR,Directory\Background\shell\WindowsTerminalHere
 
 [Strings]
-WindowsTerminalHereName="Windows Terminal Here PowerToy"
-WindowsTerminalHereAccel="Windows &Terminal Here"
+WindowsTerminalHereName="Open Windows Terminal Here"
 UDHERE="Software\Microsoft\Windows\CurrentVersion\Uninstall\WindowsTerminalHere"
+SHELLDIR="Directory\Background\shell"
+
